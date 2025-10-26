@@ -1,10 +1,76 @@
-# TPI_IntegracionAplicaciones
+## Diagramas C4
 
-   <img width="1341" height="641" alt="C4_ContextDiagram drawio" src="https://github.com/user-attachments/assets/d79532dc-adab-40af-a415-21cd7c7e4086" />
+### 1. Context Diagram
+Este diagrama muestra el **entorno del sistema y sus actores externos**. Permite identificar cómo los usuarios y sistemas externos interactúan con nuestra aplicación.  
+<img width="1341" height="641" alt="C4_ContextDiagram drawio" src="https://github.com/user-attachments/assets/d79532dc-adab-40af-a415-21cd7c7e4086" />
 
-   <img width="651" height="731" alt="image" src="https://github.com/user-attachments/assets/b0737440-c22b-48d3-a8b5-8283cd2a4ef6" />
+**Descripción:**  
+- Usuarios finales interactúan con el sistema a través del **Dashboard** y servicios web.  
+- Sistemas externos incluyen servicios de autenticación y proveedores de notificaciones.  
+- Este diagrama ayuda a definir los límites y responsabilidades de nuestro sistema.
 
-   <img width="1040" height="634" alt="image" src="https://github.com/user-attachments/assets/f82e32a8-0418-4119-95ec-43d2b276f992" />
+---
 
+### 2. Container Diagram
+Muestra los **contenedores del sistema**, incluyendo servicios, bases de datos y API Gateway.  
+<img width="651" height="731" alt="image" src="https://github.com/user-attachments/assets/b0737440-c22b-48d3-a8b5-8283cd2a4ef6" />
 
+**Descripción:**  
+- **API Gateway**: Punto de entrada unificado para los clientes.  
+- **Servicios de Pedidos y Productos**: Gestionan la lógica de negocio principal.  
+- **Servicio de Notificaciones**: Gestiona alertas en tiempo real a los usuarios.  
+- **Dashboard**: Interfaz visual para los usuarios.  
+- **Bases de datos MongoDB**: Almacenan información de productos y pedidos.  
 
+---
+
+### 3. Component Diagram
+Detalle interno de cada contenedor, mostrando **componentes y sus interacciones**.  
+<img width="1040" height="634" alt="image" src="https://github.com/user-attachments/assets/f82e32a8-0418-4119-95ec-43d2b276f992" />
+
+**Descripción:**  
+- Cada servicio se divide en componentes internos para gestionar lógica específica:  
+  - Pedidos: Gestión de ordenes, inventario y estado de pedidos.  
+  - Productos: CRUD de productos, actualización de stock.  
+  - Dashboard: Suscripción a eventos, visualización de datos.  
+  - Notificaciones: Envío de alertas, integración con broker de mensajería.
+
+---
+
+## ADR — Architectural Decision Records
+
+### 1. Comunicación entre Pedidos y Productos: **gRPC**
+**Decisión:** Usar gRPC para la comunicación entre servicios de Pedidos y Productos.  
+**Motivo:**  
+- Comunicación **rápida y eficiente** (protocolo binario).  
+- Contratos fuertemente tipados que **evitan errores de integración**.  
+- Soporta **streaming** para actualizaciones en tiempo real si fuese necesario.  
+
+### 2. Base de datos: **MongoDB**
+**Decisión:** Usar MongoDB para almacenar datos de Pedidos y Productos.  
+**Motivo:**  
+- Datos semi-estructurados y flexibles.  
+- Escalabilidad horizontal sencilla para **alto volumen de pedidos**.  
+- Facilita cambios rápidos en el esquema, útil para iteraciones rápidas de desarrollo.  
+
+### 3. Seguridad: **Auth0 en API Gateway**
+**Decisión:** Integrar Auth0 para autenticación y autorización.  
+**Motivo:**  
+- Gestión centralizada de usuarios y roles.  
+- Facilita autenticación OAuth2/JWT, cumpliendo estándares de seguridad.  
+- API Gateway protege los microservicios internos y garantiza que solo clientes autenticados accedan a la información.  
+
+### 4. Servicio de Dashboard: **WebSockets**
+**Decisión:** Dashboard recibe datos en tiempo real usando WebSockets.  
+**Motivo:**  
+- Permite **actualizaciones instantáneas** sin polling constante.  
+- Mejora la experiencia de usuario mostrando cambios de pedidos o stock al instante.  
+
+### 5. Broker de mensajería: **Publicación y consumo de eventos**
+**Decisión:** Usar un broker de mensajería entre Pedidos, Notificaciones y Dashboard.  
+**Motivo:**  
+- Desacopla servicios, evitando dependencias directas.  
+- Facilita **event-driven architecture**, donde los cambios en pedidos disparan notificaciones y actualizaciones del dashboard automáticamente.  
+- Mejora escalabilidad y resiliencia del sistema.  
+
+---
