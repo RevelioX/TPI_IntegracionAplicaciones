@@ -78,10 +78,10 @@ Detalle interno de cada contenedor, mostrando **componentes y sus interacciones*
 
 ---
 
-### Modelo de Datos 
+## Modelo de Datos 
 Se utilizaran 2 bases de datos MongoDB, por lo tanto el esquema es en documentos
 
-# Producto
+### Producto
  | Campo                | Tipo     | Explicación                                                                  |
 | -------------------- | -------- | ---------------------------------------------------------------------------- |
 | `_id`                | ObjectId | Identificador único generado por MongoDB.                                    |
@@ -102,5 +102,52 @@ Se utilizaran 2 bases de datos MongoDB, por lo tanto el esquema es en documentos
   "fechaCreacion": ISODate("2025-10-26T00:00:00Z"),
   "fechaActualizacion": ISODate("2025-10-26T00:00:00Z")
 }
+```
+
+### Pedido
+
+| Campo                        | Tipo             | Explicación                                                                                 |
+| ---------------------------- | ---------------- | ------------------------------------------------------------------------------------------- |
+| `_id`                        | ObjectId         | Identificador único del pedido.                                                             |
+| `cliente`                    | String           | Información del cliente o mesa.                                                             |
+| `cliente.nombre`             | String           | Nombre del cliente.                                                                         |
+| `mesa`               | Number           | Número de mesa.                                                                             |
+| `productos`                  | Array de objetos | Productos pedidos. Mantiene histórico de precios y cantidad.                                |
+| `productos[].productoId`     | ObjectId         | Referencia al producto original.                                                            |
+| `productos[].nombre`         | String           | Nombre del producto al momento del pedido.                                                  |
+| `productos[].cantidad`       | Number           | Cantidad solicitada de ese producto.                                                        |
+| `productos[].precioUnitario` | Number           | Precio del producto al momento del pedido.                                                  |
+| `total`                      | Number           | Total del pedido calculado al confirmarlo.                                                  |
+| `estado`                     | String           | Estado del pedido: `"pendiente"`, `"confirmado"`, `"preparando"`, `"listo"`, `"entregado"`. |
+| `fechaPedido`                | ISODate          | Fecha de creación del pedido.                                                               |
+| `fechaActualizacion`         | ISODate          | Fecha de última modificación del pedido.                                                    |
+
+```js
+{
+  "_id": ObjectId("650c2f9a1f9f1a0098765432"),
+  "cliente": {
+    "nombre": "Juan Perez",
+    "mesa": 5
+  },
+  "productos": [
+    {
+      "productoId": ObjectId("650c2f1a1f9f1a0012345678"),
+      "nombre": "Pizza Margarita",
+      "cantidad": 2,
+      "precioUnitario": 1200
+    },
+    {
+      "productoId": ObjectId("650c2f2b1f9f1a0012345679"),
+      "nombre": "Ensalada César",
+      "cantidad": 1,
+      "precioUnitario": 800
+    }
+  ],
+  "total": 3200,
+  "estado": "pendiente",
+  "fechaPedido": ISODate("2025-10-26T00:00:00Z"),
+  "fechaActualizacion": ISODate("2025-10-26T00:00:00Z")
+}
 
 ```
+
