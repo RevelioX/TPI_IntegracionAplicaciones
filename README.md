@@ -89,6 +89,18 @@ Se utilizaran 2 bases de datos MongoDB, por lo tanto el esquema es en documentos
 | `descripcion`        | String   | Descripción del producto, ingredientes o preparación.                        |
 | `precio`             | Number   | Precio unitario del producto en la moneda local.                             |
 | `stock`              | Number   | Cantidad disponible en inventario. Se actualiza al confirmar pedidos.        |
-| `categoria`          | String   | Clasificación opcional (ej: "Pizza", "Ensaladas"). Útil para organizar menú. |
 | `fechaCreacion`      | ISODate  | Fecha de creación del producto en la base de datos.                          |
-| `fechaActualizacion` | ISODate  | Fecha de última modificación del producto.                                   |
+
+```js
+{
+  "_id": ObjectId("650c2f1a1f9f1a0012345678"),
+  "nombre": "Pizza Margarita",
+  "descripcion": "Pizza con tomate, mozzarella y albahaca",
+  "precio": 1200,
+  "stock": 10,
+  "categoria": "Pizza",
+  "fechaCreacion": ISODate("2025-10-26T00:00:00Z"),
+  "fechaActualizacion": ISODate("2025-10-26T00:00:00Z")
+}
+
+```
