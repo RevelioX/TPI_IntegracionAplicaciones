@@ -109,8 +109,7 @@ Se utilizaran 2 bases de datos MongoDB, por lo tanto el esquema es en documentos
 | Campo                        | Tipo             | Explicación                                                                                 |
 | ---------------------------- | ---------------- | ------------------------------------------------------------------------------------------- |
 | `_id`                        | ObjectId         | Identificador único del pedido.                                                             |
-| `cliente`                    | String           | Información del cliente o mesa.                                                             |
-| `cliente.nombre`             | String           | Nombre del cliente.                                                                         |
+| `cliente`                    | String           | Información del cliente.                                                             |
 | `mesa`               | Number           | Número de mesa.                                                                             |
 | `productos`                  | Array de objetos | Productos pedidos. Mantiene histórico de precios y cantidad.                                |
 | `productos[].productoId`     | ObjectId         | Referencia al producto original.                                                            |
@@ -125,10 +124,8 @@ Se utilizaran 2 bases de datos MongoDB, por lo tanto el esquema es en documentos
 ```js
 {
   "_id": ObjectId("650c2f9a1f9f1a0098765432"),
-  "cliente": {
-    "nombre": "Juan Perez",
-    "mesa": 5
-  },
+  "cliente": "Rodolfo",
+  "mesa": 12,
   "productos": [
     {
       "productoId": ObjectId("650c2f1a1f9f1a0012345678"),
