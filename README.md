@@ -68,9 +68,27 @@ Detalle interno de cada contenedor, mostrando **componentes y sus interacciones*
 
 ### 5. Broker de mensajería: **Publicación y consumo de eventos**
 **Decisión:** Usar un broker de mensajería entre Pedidos, Notificaciones y Dashboard.  
+
+---
+
 **Motivo:**  
 - Desacopla servicios, evitando dependencias directas.  
 - Facilita **event-driven architecture**, donde los cambios en pedidos disparan notificaciones y actualizaciones del dashboard automáticamente.  
 - Mejora escalabilidad y resiliencia del sistema.  
 
 ---
+
+### Modelo de Datos 
+Se utilizaran 2 bases de datos MongoDB, por lo tanto el esquema es en documentos
+
+# Producto
+ | Campo                | Tipo     | Explicación                                                                  |
+| -------------------- | -------- | ---------------------------------------------------------------------------- |
+| `_id`                | ObjectId | Identificador único generado por MongoDB.                                    |
+| `nombre`             | String   | Nombre del producto. Debe ser único en la colección.                         |
+| `descripcion`        | String   | Descripción del producto, ingredientes o preparación.                        |
+| `precio`             | Number   | Precio unitario del producto en la moneda local.                             |
+| `stock`              | Number   | Cantidad disponible en inventario. Se actualiza al confirmar pedidos.        |
+| `categoria`          | String   | Clasificación opcional (ej: "Pizza", "Ensaladas"). Útil para organizar menú. |
+| `fechaCreacion`      | ISODate  | Fecha de creación del producto en la base de datos.                          |
+| `fechaActualizacion` | ISODate  | Fecha de última modificación del producto.                                   |
