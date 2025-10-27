@@ -148,3 +148,32 @@ Se utilizaran 2 bases de datos MongoDB, por lo tanto el esquema es en documentos
 
 ```
 
+### Estrategía de Migraciones
+
+Carpeta migrations/
+Cada migración es un archivo numerado secuencialmente:
+
+ ```
+001_create_productos.js
+002_create_pedidos.js
+003_add_estado_to_pedidos.js
+ ```
+
+El prefijo numérico asegura el orden de ejecución.
+
+Se puede incluir un descriptor corto en el nombre del archivo.
+
+ ```
+module.exports.up = async function(db) { ... }     // Aplica cambios
+module.exports.down = async function(db) { ... }   // Reversa cambios
+```
+
+db: instancia de la base de datos MongoDB.
+up() ejecuta la migración.
+down() revierte la migración (opcional, pero recomendado para pruebas).
+
+Registro de migraciones aplicadas
+Crear colección migrations en MongoDB.
+Cada vez que se aplica una migración, se registra el id, nombre, fechaAplicacion.
+Esto evita re-ejecutar migraciones ya aplicadas.
+
